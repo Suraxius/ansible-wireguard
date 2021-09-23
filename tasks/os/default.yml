@@ -1,0 +1,7 @@
+---
+
+- name: Load tasks for each interface.
+  include_tasks: "config/interface.yml"
+  loop: "{{ wg }}"
+  loop_control:
+    loop_var: 'config'

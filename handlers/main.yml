@@ -1,0 +1,6 @@
+---
+
+#- name: Reload WireGuard
+#  systemd:
+#    daemon_reload: yes
+

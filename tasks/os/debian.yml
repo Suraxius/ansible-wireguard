@@ -1,0 +1,19 @@
+---
+
+- name: Install WireGuard
+  apt:
+    name: wireguard
+    state: present
+
+- name: Add Systemd Service for {{ config.name }} Interface
+  systemd:
+    name: "wg-quick@{{ config.name }}"
+    enabled: true
+    state: started
+    #state: restarted
+
+- name: Restart {{ config.name }} WireGuard Service
+  systemd:
+    name: "wg-quick@{{ config.name }}"
+    state: restarted
+  when: config_install.changed

@@ -1,0 +1,28 @@
+# {{ config.name }}
+
+[Interface]
+SaveConfig = false
+Address    = {{ config.subnet | nthhost(config2.interface.id) + '/' + config.subnet | ipaddr('prefix') | string }}
+PrivateKey = {{ config2.interface.privkey }}
+{% if config2.interface.port is defined  %}ListenPort = {{ config2.interface.port }}{% endif %}
+
+{% if config2.interface.postup is defined  %}
+{% for rule in config2.interface.postup %}
+PostUp = {{ rule }}
+{% endfor %}
+{% endif %}
+
+{% if config2.interface.postdown is defined  %}
+{% for rule in config2.interface.postdown %}
+PostDown = {{ rule }}
+{% endfor %}
+{% endif %}
+
+{% for peer in config2.peers %}
+{% if config2.interface.address is defined or peer.address is defined  %}
+[Peer]
+PublicKey  = {{ peer.pubkey }}
+AllowedIPs = {{ ([config.subnet | nthhost(peer.id)] + peer.allowedips | default([])) | join(',') }}
+{% if peer.address is defined %}Endpoint   = {{ peer.address + ':' + peer.port | default('51820') | string }}{% endif %}
+{% endif %}
+{% endfor %}

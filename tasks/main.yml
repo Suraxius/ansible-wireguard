@@ -1,0 +1,8 @@
+---
+
+- name: Load tasks for each configuration file
+  include_tasks: "config.yml"
+  loop: "{{ wg }}"
+  loop_control:
+    loop_var: 'config'
+

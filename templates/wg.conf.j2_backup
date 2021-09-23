@@ -1,0 +1,28 @@
+# {{ config.name }}
+
+[Interface]
+Address    = {{ config.subnet | ansible.netcommon.nthhost(config2.interface.id) }}
+ListenPort = {{ config2.interface.port }}
+PrivateKey = {{ config2.interface.privkey }}
+AllowedIPs = {{ config.subnet }}
+
+{% if config2.interface.postup is defined  %}
+{% for rule in config2.interface.postup %}
+PostUp = {{ rule }}
+{% endfor %}
+{% endif %}
+
+{% if config2.interface.postdown is defined  %}
+{% for rule in config2.interface.postdown %}
+PostDown = {{ rule }}
+{% endfor %}
+{% endif %}
+
+{% for peer in config2.peers %}
+{% if config2.interface.address is defined or peer.address is defined  %}
+[Peer]
+PublicKey  = {{ peer.pubkey }}
+AllowedIPs = {{ ([config.subnet | ansible.netcommon.nthhost(peer.id)] + peer.allowedips | default([])) | join(',') }}
+Endpoint   = {{ peer.address + ':' + peer.port }}
+{% endif %}
+{% endfor %}

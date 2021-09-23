@@ -1,0 +1,25 @@
+---
+
+- name: Load variables based on OS for configuration {{ config.name }}
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "config-{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml"
+    - "config-{{ ansible_distribution|lower }}.yml"
+    - "config-{{ ansible_os_family|lower }}.yml"
+    - "config-default.yml"
+
+- name: Install configuration file for {{ config.name }}
+  template:
+    src: "wg.conf.j2"
+    dest: "/etc/wireguard/{{ config.name }}.conf"
+    mode: "0650"
+  register: config_install
+
+- name: Load OS specific tasks
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "os/{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml"
+    - "os/{{ ansible_distribution|lower }}.yml"
+    - "os/{{ ansible_os_family|lower }}.yml"
+    - "os/default.yml"
+
