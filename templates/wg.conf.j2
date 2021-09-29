@@ -20,6 +20,8 @@ PostDown = {{ rule }}
 
 {% for peer in config2.peers %}
 {% if config2.interface.address is defined or peer.address is defined  %}
+
+# Hostname {{ peer.name }}
 [Peer]
 PublicKey  = {{ peer.pubkey }}
 AllowedIPs = {{ ([config.subnet | nthhost(peer.id)] + peer.allowedips | default([])) | join(',') }}

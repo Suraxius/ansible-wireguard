@@ -14,6 +14,7 @@
     dest: "/etc/wireguard/{{ config.name }}.conf"
     mode: "0650"
   register: config_install
+  when: config2.interface
 
 - name: Load OS specific tasks
   include_tasks: "{{ item }}"
@@ -22,4 +23,5 @@
     - "os/{{ ansible_distribution|lower }}.yml"
     - "os/{{ ansible_os_family|lower }}.yml"
     - "os/default.yml"
+  when: config2.interface
 

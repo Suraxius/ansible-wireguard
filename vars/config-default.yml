@@ -1,7 +1,7 @@
 ---
 
 config2:
-  interface: "{{ config['hosts'] | selectattr('name', '==', inventory_hostname) | first }}"
-  peers:     "{{ config['hosts'] | rejectattr('name', '==', inventory_hostname) }}"
+  interface: "{{ config['hosts'] | selectattr('name', '==', inventory_hostname) | first | default({}) }}"
+  peers:     "{{ config['hosts'] | rejectattr('name', '==', inventory_hostname) | default({}) }}"
   #peers:     "{{ config['hosts'] | rejectattr('name', '==', inventory_hostname) | rejectattr('isolate', 'false') }}"
 
