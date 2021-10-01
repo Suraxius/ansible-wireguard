@@ -16,4 +16,8 @@
   systemd:
     name: "wg-quick@{{ config.name }}"
     state: restarted
-  when: config_install.changed
+  when:
+  - config_install.changed
+  - config2.interface.restart is not defined or config2.interface.restart
+  - config.restart is not defined or config.restart
+
