@@ -4,6 +4,7 @@
   apt:
     name: wireguard
     state: present
+  become: true
 
 - name: Add Systemd Service for {{ config.name }} Interface
   systemd:
@@ -11,11 +12,13 @@
     enabled: true
     state: started
     #state: restarted
+  become: true
 
 - name: Restart {{ config.name }} WireGuard Service
   systemd:
     name: "wg-quick@{{ config.name }}"
     state: restarted
+  become: true
   when:
   - config_install.changed
   - config2.interface.restart is not defined or config2.interface.restart

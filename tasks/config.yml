@@ -14,6 +14,7 @@
     dest: "/etc/wireguard/{{ config.name }}.conf"
     mode: "0650"
   register: config_install
+  become: true
   when: config2.interface
 
 - name: Load OS specific tasks
