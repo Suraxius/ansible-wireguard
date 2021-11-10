@@ -2,5 +2,3 @@
 
 wg: []
 
-#wg_interface: "{{ wg['hosts'] | default([]) | selectattr('name', '==', inventory_hostname) }}"
-#wg_peers:     "{{ wg['hosts'] | default([]) | rejectattr('name', '==', inventory_hostname) }}"

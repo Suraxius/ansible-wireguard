@@ -50,7 +50,7 @@ wg:
     pubkey:  YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
 ```
 
-| :exclamation:  Make sure the hostnames configured (wg.hosts.name) match the inventory hostnames. |
+| :exclamation:  Ensure each hostname configured (wg.hosts.name) matches its configured inventory hostname. |
 |-----------------------------------------|
 
 
