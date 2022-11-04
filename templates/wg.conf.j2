@@ -24,7 +24,7 @@ PostDown = {{ rule }}
 # Hostname {{ peer.name }}
 [Peer]
 PublicKey  = {{ peer.pubkey }}
-AllowedIPs = {{ ([config.subnet | nthhost(peer.id)] + peer.allowedips | default([])) | join(',') }}
+AllowedIPs = {{ ([config.subnet | nthhost(peer.id)] + (peer.routes|default(peer.allowedips)) | default([])) | join(',') }}
 {% if peer.address is defined %}Endpoint   = {{ peer.address + ':' + peer.port | default('51820') | string }}{% endif %}
 {% endif %}
 {% endfor %}
