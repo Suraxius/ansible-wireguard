@@ -6,6 +6,12 @@ Address    = {{ config.subnet | nthhost(config2.interface.id) + '/' + config.sub
 PrivateKey = {{ config2.interface.privkey }}
 {% if config2.interface.port is defined  %}ListenPort = {{ config2.interface.port }}{% endif %}
 
+{% if config2.interface.options is defined  %}
+{% for option in config2.interface.options %}
+{{ option }}
+{% endfor %}
+{% endif %}
+
 {% if config2.interface.postup is defined  %}
 {% for rule in config2.interface.postup %}
 PostUp = {{ rule }}
